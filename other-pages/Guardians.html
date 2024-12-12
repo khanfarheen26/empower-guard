@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Women Safety</title>
+    <link href="../css/style.css" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg animate__animated animate__slideInDown">
+      <div class="container-fluid">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarTogglerDemo02"
+          aria-controls="navbarTogglerDemo02"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a href="../index.html">Welcome Page</a>
+            </li>
+            <li class="nav-item active">
+              <a href="Guardians.html" aria-current="page">Guardians</a>
+            </li>
+            <li class="nav-item">
+              <a href="Safety Alarms.html">Safety Alarms</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <h4 class="text-center m-5"><div id="mapLocation">Loading Location ...</div></h4>
+    <input type="hidden" name="lat" id="lat" >
+    <input type="hidden" name="long"  id='long'>
+    <div
+      class="container-fluid main-div text-center animate__animated animate__fadeIn animate__delay-1s d-none" id="sendMessageDib"    >
+      <div class="row">
+        <span class="title"> Call Your Guardians </span>
+      </div>
+      <div id="map"></div>
+      <div class="row section">
+        <div class="container text-justify">
+          <h2>Emergency Contact Information</h2>
+          <p>
+            If you are in danger or need immediate assistance, contact one of
+            your trusted guardians listed below:
+          </p>
+        </div>
+      </div>
+      <div class="row section">
+        <div class="container text-center">
+          <h3>Guardian 1</h3>
+          <p>
+            Name:
+            <input
+              type="text"
+              id="guardianName1"
+              name="guardianName1"
+              value="Khushi"
+            />
+          </p>
+          <p>
+            Relation:
+            <input
+              type="text"
+              id="relationName1"
+              name="relationName1"
+              value="Friend"
+            />
+          </p>
+          <p>
+            Phone Number:
+            <input
+              type="tel"
+              id="phoneNumber1"
+              name="phoneNumber1"
+              value="+91 91492 32638"
+            />
+          </p>
+          <button class="btn btn-primary" onclick="sendText(1)">
+            Send Emergency Text
+          </button>
+          <button class="btn btn-danger" onclick="makeCall(1)">
+            Make Emergency Call
+          </button>
+        </div>
+      </div>
+      <div class="row section">
+        <div class="container text-center">
+          <h3>Guardian 2</h3>
+          <p>
+            Name:
+            <input
+              type="text"
+              id="guardianName2"
+              name="guardianName2"
+              value="Farheen"
+            />
+          </p>
+          <p>
+            Relation:
+            <input
+              type="text"
+              id="relationName2"
+              name="relationName2"
+              value="Friend"
+            />
+          </p>
+          <p>
+            Phone Number:
+            <input
+              type="tel"
+              id="phoneNumber2"
+              name="phoneNumber2"
+              value="+91 95802 37584"
+            />
+          </p>
+          <button class="btn btn-primary" onclick="sendText(2)">
+            Send Emergency Text
+          </button>
+          <button class="btn btn-danger" onclick="makeCall(2)">
+            Make Emergency Call
+          </button>
+        </div>
+      </div>
+      <div class="row section">
+        <div class="container text-center">
+          <h3>Guardian 3</h3>
+          <p>
+            Name:
+            <input
+              type="text"
+              id="guardianName3"
+              name="guardianName3"
+              value="Rachna"
+            />
+          </p>
+          <p>
+            Relation:
+            <input
+              type="text"
+              id="relationName3"
+              name="relationName3"
+              value="Mother"
+            />
+          </p>
+          <p>
+            Phone Number:
+            <input
+              type="tel"
+              id="phoneNumber3"
+              name="phoneNumber3"
+              value="+911234567892"
+            />
+          </p>
+          <button class="btn btn-primary" onclick="sendText(3)">
+            Send Emergency Text
+          </button>
+          <button class="btn btn-danger" onclick="makeCall(3)">
+            Make Emergency Call
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Function to send emergency text
+      async function sendText(guardianId) {
+        const phoneNumber = document.getElementById(
+          `phoneNumber${guardianId}`
+        ).value;
+        const guardianName = document.getElementById(
+          `guardianName${guardianId}`
+        ).value;
+        const relation = document.getElementById(
+          `relationName${guardianId}`
+        ).value;
+
+        const lat = document.getElementById("lat").value;
+        const long = document.getElementById("long").value;
+
+        const message = `Emergency Alert! Please help. Contact Name: ${guardianName}, Relation: ${relation} : Location lat ${lat} : long ${long} https://maps.google.com/?q=${lat},${long}
+`;
+
+        try {
+          const response = await fetch("http://localhost:3000/send-sms", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ to: phoneNumber, body: message }),
+          });
+
+          const result = await response.json();
+          if (result.success) {
+            alert(
+              `SMS sent successfully to ${guardianName}! Message SID: ${result.sid}`
+            );
+          } else {
+            alert(`Failed to send SMS: ${result.error}`);
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("An error occurred while sending the SMS.");
+        }
+      }
+// Testing
+      // Function to make an emergency call
+      function makeCall(guardianId) {
+        const phoneNumber = document.getElementById(
+          `phoneNumber${guardianId}`
+        ).value;
+        window.location.href = `tel:${phoneNumber}`;
+      }
+    </script>
+  </body>
+</html>
+
+<!-- leaflet js  -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script>
+    // Map initialization 
+    var map = L.map('map').setView([14.0860746, 100.608406], 6);
+
+    //osm layer
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    osm.addTo(map);
+
+    if(!navigator.geolocation) {
+        console.log("Your browser doesn't support geolocation feature!")
+    } else {
+        setInterval(() => {
+            navigator.geolocation.getCurrentPosition(getPosition)
+        }, 5000);
+    }
+
+    var marker, circle;
+
+    function getPosition(position){
+        // console.log(position)
+        var lat = position.coords.latitude
+        var long = position.coords.longitude
+        var accuracy = position.coords.accuracy
+
+        if(marker) {
+            map.removeLayer(marker)
+        }
+
+        if(circle) {
+            map.removeLayer(circle)
+        }
+
+        marker = L.marker([lat, long])
+        circle = L.circle([lat, long], {radius: accuracy})
+
+        var featureGroup = L.featureGroup([marker, circle]).addTo(map)
+
+        map.fitBounds(featureGroup.getBounds())
+
+        console.log("Your coordinate is: Lat: "+ lat +" Long: "+ long+ " Accuracy: "+ accuracy)
+        const d = document.getElementById('mapLocation').innerText = "Your coordinate is: Lat: "+ lat +" Long: "+ long+ " Accuracy: "+ accuracy;
+        document.getElementById('sendMessageDib').classList.remove('d-none')
+        document.getElementById("lat").value = lat;
+        document.getElementById("long").value = long;
+
+    }
+
+</script>
